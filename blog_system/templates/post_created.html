@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Created</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
+        .success { color: #28a745; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div class="success">✅</div>
+    <h1>Post Created Successfully!</h1>
+    <p>Your post "{{ post.title }}" has been created.</p>
+    <a href="/posts/view/{{ post.id }}">View Post</a> | 
+    <a href="/">Back to Home</a>
+</body>
+</html>

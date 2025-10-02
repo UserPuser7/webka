@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog System</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .post { border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .btn { display: inline-block; background: #007cba; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; margin: 5px; }
+        .btn-success { background: #28a745; }
+        .post-actions { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>📝 Blog System</h1>
+    
+    <div>
+        <a href="/posts/create" class="btn btn-success">Create New Post</a>
+        <a href="/docs" class="btn">API Documentation</a>
+    </div>
+
+    <h2>All Posts</h2>
+
+    {% if posts %}
+        {% for post in posts %}
+        <div class="post">
+            <h3>{{ post.title }}</h3>
+            <p><strong>Author:</strong> {{ post.author_name }}</p>
+            <p><strong>Created:</strong> {{ post.created_at }}</p>
+            <p>{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+            <div class="post-actions">
+                <a href="/posts/{{ post.id }}" class="btn">View</a>
+                <a href="/posts/{{ post.id }}/edit" class="btn">Edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No posts yet. <a href="/posts/create">Create your first post!</a></p>
+    {% endif %}
+</body>
+</html>
