@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .post-content { border: 1px solid #ddd; padding: 20px; margin: 15px 0; white-space: pre-wrap; }
+        .btn { background: #007cba; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p><strong>Author:</strong> {{ author.login }}</p>
+    <p><strong>Created:</strong> {{ post.created_at.strftime("%Y-%m-%d %H:%M") }}</p>
+    <p><strong>Last Updated:</strong> {{ post.updated_at.strftime("%Y-%m-%d %H:%M") }}</p>
+    
+    <div class="post-content">
+        {{ post.content }}
+    </div>
+    
+    <br>
+    <a href="/posts/{{ post.id }}/edit" class="btn">Edit Post</a>
+    <a href="/" style="margin-left: 10px;">Back to Home</a>
+</body>
+</html>

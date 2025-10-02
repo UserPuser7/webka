@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Post</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        .error { color: red; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Create New Post</h1>
+    
+    {% if users %}
+    <form method="post" action="/posts/create">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required maxlength="100">
+        </div>
+        
+        <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" rows="10" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="author_id">Author:</label>
+            <select id="author_id" name="author_id" required>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.login }} ({{ user.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit">Create Post</button>
+    </form>
+    {% else %}
+    <div class="error">
+        <p>No users available. Please create a user first.</p>
+        <p>Go to <a href="/docs">API Documentation</a> and use POST /users/ to create a user.</p>
+    </div>
+    {% endif %}
+    
+    <br>
+    <a href="/">← Back to Home</a>
+</body>
+</html>
