@@ -1,40 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Blog System</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .post { border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-radius: 5px; }
-        .btn { display: inline-block; background: #007cba; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; margin: 5px; }
-        .btn-success { background: #28a745; }
-        .post-actions { margin-top: 10px; }
-    </style>
-</head>
-<body>
-    <h1>📝 Blog System</h1>
-    
-    <div>
-        <a href="/posts/create" class="btn btn-success">Create New Post</a>
-        <a href="/docs" class="btn">API Documentation</a>
-    </div>
+{% extends "base.html" %}
 
-    <h2>All Posts</h2>
+{% block title %}Все посты{% endblock %}
 
-    {% if posts %}
-        {% for post in posts %}
-        <div class="post">
-            <h3>{{ post.title }}</h3>
-            <p><strong>Author:</strong> {{ post.author_name }}</p>
-            <p><strong>Created:</strong> {{ post.created_at }}</p>
-            <p>{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
-            <div class="post-actions">
-                <a href="/posts/{{ post.id }}" class="btn">View</a>
-                <a href="/posts/{{ post.id }}/edit" class="btn">Edit</a>
+{% block content %}
+<h1>Все посты</h1>
+<a href="/create-post" class="btn btn-primary mb-3">Создать новый пост</a>
+
+{% if posts %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content[:200] }}...</p>
+                <p class="card-text text-muted">Автор: {{ post.authorName }} | Создано: {{ post.createdAt.strftime('%Y-%m-%d %H:%M') }}</p>
+                <a href="/post/{{ post.id }}" class="btn btn-sm btn-outline-primary">Читать далее</a>
             </div>
         </div>
-        {% endfor %}
-    {% else %}
-        <p>No posts yet. <a href="/posts/create">Create your first post!</a></p>
-    {% endif %}
-</body>
-</html>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Пока нет ни одного поста.</p>
+{% endif %}
+{% endblock %}
