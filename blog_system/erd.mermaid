@@ -1,0 +1,59 @@
+erDiagram
+    users ||--o{ posts : "author"
+    users ||--o{ comments : "author"
+    users ||--o{ saved_posts : "saved"
+    users ||--o{ subscriptions : "follower"
+    users ||--o{ subscriptions : "following"
+    posts ||--o{ comments : "has"
+    posts ||--o{ post_categories : "has"
+    categories ||--o{ post_categories : "used in"
+    posts ||--o{ saved_posts : "saved by"
+
+    users {
+        int id PK
+        string login
+        string email
+        string password
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    posts {
+        int id PK
+        int authorId FK
+        string title
+        string content
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    categories {
+        int id PK
+        string name
+    }
+
+    post_categories {
+        int postId FK
+        int categoryId FK
+    }
+
+    saved_posts {
+        int userId FK
+        int postId FK
+        datetime savedAt
+    }
+
+    comments {
+        int id PK
+        int postId FK
+        int userId FK
+        string content
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    subscriptions {
+        int followerId FK
+        int followingId FK
+        datetime subscribedAt
+    }

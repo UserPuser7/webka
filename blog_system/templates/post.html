@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h1>{{ post.title }}</h1>
+                <p class="text-muted">Автор: {{ post.authorName }} | Создано: {{ post.createdAt.strftime('%Y-%m-%d %H:%M') }} | Обновлено: {{ post.updatedAt.strftime('%Y-%m-%d %H:%M') }}</p>
+                <hr>
+                <div>{{ post.content }}</div>
+                <hr>
+                <a href="/edit-post/{{ post.id }}" class="btn btn-primary">Редактировать</a>
+                <a href="/" class="btn btn-secondary">Назад к списку</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

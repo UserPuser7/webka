@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Все посты{% endblock %}
+
+{% block content %}
+<h1>Все посты</h1>
+<a href="/create-post" class="btn btn-primary mb-3">Создать новый пост</a>
+
+{% if posts %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content[:200] }}...</p>
+                <p class="card-text text-muted">Автор: {{ post.authorName }} | Создано: {{ post.createdAt.strftime('%Y-%m-%d %H:%M') }}</p>
+                <a href="/post/{{ post.id }}" class="btn btn-sm btn-outline-primary">Читать далее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Пока нет ни одного поста.</p>
+{% endif %}
+{% endblock %}
