@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Подборки{% endblock %}
+{% block content %}
+    <h1>Ваши подборки</h1>
+    <form method="post" action="/collections">
+        <input type="text" name="name" placeholder="Название подборки" required>
+        <button type="submit">Создать подборку</button>
+    </form>
+    {% for collection in collections %}
+        <a href="/collections/{{ collection.id }}" class="collection-block">
+            <div class="collection-name">{{ collection.name }}</div>
+            <div class="collection-info">
+                Дата создания: {{ collection.createdAt }}<br>
+                Количество постов: {{ collection.post_count }}
+            </div>
+            <div class="posts-list">
+                {% for post in collection.posts %}
+                    <div class="post-card">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.content[:200] }}...</p>
+                        <small>Автор: {{ post.authorName }} | Создано: {{ post.createdAt }}</small>
+                        <a href="/post/{{ post.id }}" class="btn btn-outline-primary">Читать далее</a>
+                        <form method="post" action="/collection/{{ collection.id }}/remove-post" style="display:inline;">
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <button type="submit">Удалить</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </a>
+        <form method="post" action="/collections/{{ collection.id }}/delete" style="margin-bottom: 1rem;">
+            <button type="submit">Удалить подборку</button>
+        </form>
+    {% endfor %}
+{% endblock %}

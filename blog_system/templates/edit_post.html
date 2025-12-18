@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Редактировать пост{% endblock %}
+
+{% block content %}
+<h1>Редактировать пост "{{ post.title }}"</h1>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="post">
+    <div class="mb-3">
+        <label for="authorId" class="form-label">Автор</label>
+        <select class="form-select" id="authorId" name="authorId" required>
+            {% for user in users %}
+            <option value="{{ user.id }}" {% if user.id == post.authorId %}selected{% endif %}>
+                {{ user.login }} ({{ user.email }})
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title" required minlength="3" maxlength="200">
+    </div>
+    <div class="mb-3">
+        <label for="content" class="form-label">Содержание</label>
+        <textarea class="form-control" id="content" name="content" rows="10" required minlength="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    <a href="/post/{{ post.id }}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

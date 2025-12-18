@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Создать пост{% endblock %}
+
+{% block content %}
+<h1>Создать новый пост</h1>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="post">
+    <div class="mb-3">
+        <label for="authorId" class="form-label">Автор</label>
+        <select class="form-select" id="authorId" name="authorId" required>
+            <option value="">Выберите автора</option>
+            {% for user in users %}
+            <option value="{{ user.id }}">{{ user.login }} ({{ user.email }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="content" class="form-label">Содержание</label>
+        <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать пост</button>
+    <a href="/" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

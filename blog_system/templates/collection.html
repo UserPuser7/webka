@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ collection.name }}</h1>
+{% if posts %}
+<div class="posts-list">
+    {% for post in posts %}
+    <div class="post-card">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content[:200] }}...</p>
+        <small>Автор: {{ post.authorName }} | Создано: {{ post.createdAt }}</small>
+        <a href="/post/{{ post.id }}" class="btn btn-outline-primary">Читать далее</a>
+        <form method="post" action="/collection/{{ collection.id }}/remove-post" style="display:inline;">
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>В подборке нет постов.</p>
+{% endif %}
+{% endblock %}

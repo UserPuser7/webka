@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Все посты{% endblock %}
+
+{% block content %}
+<h1>Все посты</h1>
+<form class="row g-2 mb-3" method="get" action="/">
+    <div class="col-auto">
+        <input type="text" class="form-control" name="q" placeholder="Поиск по постам" value="{{ query or '' }}">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary">Искать</button>
+    </div>
+</form>
+
+<a href="/create-post" class="btn btn-primary mb-3">Создать новый пост</a>
+
+{% if posts %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content[:200] }}...</p>
+                <p class="card-text text-muted">
+                    Автор: {{ post.authorName }} | Создано: {{ post.createdAt }}
+                </p>
+                <a href="/post/{{ post.id }}" class="btn btn-sm btn-outline-primary">Читать далее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Пока нет ни одного поста.</p>
+{% endif %}
+<nav aria-label="Навигация по страницам">
+  <ul class="pagination">
+    {% if has_prev %}
+    <li class="page-item">
+      <a class="page-link" href="/?page={{ page-1 }}{% if query %}&q={{ query }}{% endif %}">Предыдущая</a>
+    </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">{{ page }}</span>
+    </li>
+
+    {% if has_next %}
+    <li class="page-item">
+      <a class="page-link" href="/?page={{ page+1 }}{% if query %}&q={{ query }}{% endif %}">Следующая</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

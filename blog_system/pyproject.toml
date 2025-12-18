@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "blog-api"
+version = "0.1.0"
+description = "Simple blog system with REST API"
+authors = ["Смагина Арина"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.104.0"
+uvicorn = "^0.30.0"
+jinja2 = "^3.1.0"
+python-multipart = "^0.0.9"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+flake8 = "^6.1.0"
+mypy = "^1.8.0"
+pre-commit = "^3.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
