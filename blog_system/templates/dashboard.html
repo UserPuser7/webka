@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Статистика</h1>
+<ul>
+    <li>Пользователей: {{ users_count }}</li>
+    <li>Постов: {{ posts_count }}</li>
+    <li>Комментариев: {{ comments_count }}</li>
+</ul>
+{% endblock %}

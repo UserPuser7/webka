@@ -5,15 +5,84 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-body">
                 <h1>{{ post.title }}</h1>
-                <p class="text-muted">Автор: {{ post.authorName }} | Создано: {{ post.createdAt.strftime('%Y-%m-%d %H:%M') }} | Обновлено: {{ post.updatedAt.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p class="text-muted">
+                    Автор: {{ post.authorName }} |
+                    Создано: {{ post.createdAt }} |
+                    Обновлено: {{ post.updatedAt }}
+                </p>
+
                 <hr>
-                <div>{{ post.content }}</div>
+                <div>{{ post_content|safe }}</div>
+
                 <hr>
+
+                {% if current_user_id == post.authorId or current_user_role == 'admin' %}
                 <a href="/edit-post/{{ post.id }}" class="btn btn-primary">Редактировать</a>
-                <a href="/" class="btn btn-secondary">Назад к списку</a>
+
+
+                <form method="post" action="/post/{{ post.id }}/delete" class="d-inline">
+                    <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Точно удалить пост?')">Удалить</button>
+                </form>
+                {% endif %}
+
+                {% if current_user_id %}
+                <form method="post" action="/post/{{ post.id }}/add-to-collection" style="margin-bottom: 1rem;">
+                    <label for="collection_id">Добавить в подборку:</label>
+                    <select name="collection_id" id="collection_id" class="select">
+                        {% for collection in collections %}
+
+                        <option value="{{ collection.id }}">{{ collection.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-secondary">Добавить</button>
+                </form>
+
+                <form method="post" action="/post/{{ post.id }}/save" style="margin-bottom: 1rem;">
+                    <button type="submit" class="btn btn-secondary">Добавить в избранное</button>
+                </form>
+                {% endif %}
+                {% if is_saved %}
+                <form method="post" action="/post/{{ post.id }}/unsave" style="margin-bottom: 1rem;">
+                    <button type="submit" class="btn btn-secondary">Удалить из избранного</button>
+                </form>
+                {% endif %}
+
+
+
+                <a href="/" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h3>Комментарии</h3>
+
+                {% for comment in comments %}
+                    <div class="mb-2">
+                        <strong>{{ comment.authorName }}</strong>
+                        <small class="text-muted">{{ comment.createdAt }}</small>
+                        <p class="mb-0">{{ comment.content }}</p>
+                    </div>
+                    <hr>
+                {% else %}
+                    <p>Пока нет комментариев.</p>
+                {% endfor %}
+
+                {% if current_user_id %}
+                <form method="post" action="/post/{{ post.id }}/comment">
+                    <div class="mb-3">
+                        <label for="commentContent" class="form-label">Новый комментарий</label>
+                        <textarea class="form-control" id="commentContent" name="content" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+                {% else %}
+                <p>Чтобы оставить комментарий, <a href="/login">войдите</a>.</p>
+                {% endif %}
             </div>
         </div>
     </div>

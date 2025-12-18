@@ -1,14 +1,15 @@
--- Таблица пользователей
+-- Таблица пользователей --
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     login TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'user',
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица постов
+-- Таблица постов --
 CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     authorId INTEGER NOT NULL,
@@ -19,13 +20,13 @@ CREATE TABLE IF NOT EXISTS posts (
     FOREIGN KEY (authorId) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Таблица категорий (тэгов)
+-- Таблица категорий (тэгов) --
 CREATE TABLE IF NOT EXISTS categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE
 );
 
--- Связь постов и категорий (многие ко многим)
+-- Связь постов и категорий (многие ко многим) --
 CREATE TABLE IF NOT EXISTS post_categories (
     postId INTEGER NOT NULL,
     categoryId INTEGER NOT NULL,
@@ -34,7 +35,7 @@ CREATE TABLE IF NOT EXISTS post_categories (
     FOREIGN KEY (categoryId) REFERENCES categories(id) ON DELETE CASCADE
 );
 
--- Таблица избранных постов (закладки)
+-- Таблица избранных постов (закладки) --
 CREATE TABLE IF NOT EXISTS saved_posts (
     userId INTEGER NOT NULL,
     postId INTEGER NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS saved_posts (
     FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE
 );
 
--- Таблица комментариев
+-- Таблица комментариев --
 CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     postId INTEGER NOT NULL,
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Таблица подписок
+-- Таблица подписок --
 CREATE TABLE IF NOT EXISTS subscriptions (
     followerId INTEGER NOT NULL, -- кто подписан
     followingId INTEGER NOT NULL, -- на кого подписан
@@ -64,4 +65,22 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     PRIMARY KEY (followerId, followingId),
     FOREIGN KEY (followerId) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (followingId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Таблица подборок --
+CREATE TABLE IF NOT EXISTS collections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Связь постов и подборок --
+CREATE TABLE IF NOT EXISTS post_collections (
+    postId INTEGER NOT NULL,
+    collectionId INTEGER NOT NULL,
+    PRIMARY KEY (postId, collectionId),
+    FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (collectionId) REFERENCES collections(id) ON DELETE CASCADE
 );

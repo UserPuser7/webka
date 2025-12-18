@@ -2,7 +2,7 @@
 name = "blog-api"
 version = "0.1.0"
 description = "Simple blog system with REST API"
-authors = ["Your Name <you@example.com>"]
+authors = ["Смагина Арина"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
